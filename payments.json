@@ -1,0 +1,24 @@
+[
+    {
+        "model": "lms.payment",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "payment_date": "2023-10-01",
+            "paid_course_or_lesson": 3,
+            "payment_amount": 100.50,
+            "payment_method": "cash"
+        }
+    },
+    {
+        "model": "lms.payment",
+        "pk": 2,
+        "fields": {
+            "user": 1,
+            "payment_date": "2023-10-02",
+            "paid_course_or_lesson": 2,
+            "payment_amount": 150.75,
+            "payment_method": "transfer"
+        }
+    }
+]
