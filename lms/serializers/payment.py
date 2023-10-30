@@ -1,11 +1,10 @@
 from rest_framework import serializers
 
 from lms.models import Payment
-from lms.models import Lesson
 
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Lesson
+        model = Payment
         fields = '__all__'
 
 
