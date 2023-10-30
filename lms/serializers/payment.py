@@ -1,6 +1,13 @@
 from rest_framework import serializers
 
 from lms.models import Payment
+from lms.models import Lesson
+
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Lesson
+        fields = '__all__'
+
 
 
 # class PaymentFilter(serializers.FilterSet):
@@ -12,3 +19,9 @@ from lms.models import Payment
 #     class Meta:
 #         model = Payment
 #         fields = ['min_date', 'max_date', 'course', 'payment_method']
+
+# Настройте фильтрацию для эндпоинтов вывода списка платежей с возможностями:
+#
+#     менять порядок сортировки по дате оплаты,
+#     фильтровать по курсу или уроку,
+#     фильтровать по способу оплаты.
