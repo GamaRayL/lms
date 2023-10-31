@@ -4,4 +4,4 @@ django-filter
 ipython
 pillow
 psycopg2-binary
-python-dotenv
+django-environ
