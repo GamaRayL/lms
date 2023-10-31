@@ -9,7 +9,7 @@ class LessonListAPIView(generics.ListAPIView):
     queryset = Lesson.objects.all()
 
 
-class LessonDetailAPIView(generics.RetrieveAPIView):
+class LessonRetrieveAPIView(generics.RetrieveAPIView):
     serializer_class = LessonSerializer
 
 
