@@ -1,6 +1,12 @@
 from django.db import models
 from constants import NULLABLE
 from django.contrib.auth.models import AbstractUser
+from django.utils.translation import gettext_lazy as _
+
+
+class UserRoles(models.TextChoices):
+    MEMBER = 'member', _('member')
+    MODERATOR = 'moderator', _('moderator')
 
 
 class User(AbstractUser):
@@ -13,6 +19,7 @@ class User(AbstractUser):
     phone = models.CharField(max_length=50, **NULLABLE, verbose_name='телефон')
     city = models.CharField(max_length=50, **NULLABLE, verbose_name='город')
     avatar = models.ImageField(**NULLABLE, verbose_name='аватарка')
+    role = models.CharField(max_length=10, choices=UserRoles.choices, default=UserRoles.MEMBER, verbose_name='роль')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -21,5 +28,3 @@ class User(AbstractUser):
         permissions = [
             ("toggle_is_active", "Активировать или деактивировать пользователя"),
         ]
-
-

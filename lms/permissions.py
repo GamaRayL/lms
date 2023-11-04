@@ -1,0 +1,2 @@
+class IsModerator(BasePermission):
+    pass
