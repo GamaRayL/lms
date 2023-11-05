@@ -1,2 +1,17 @@
+from rest_framework.permissions import BasePermission, SAFE_METHODS
+
+from lms.models import Course, Lesson
+from users.models import UserRoles
+
+
 class IsModerator(BasePermission):
-    pass
+    def has_permission(self, request, view):
+        return request.user.role == UserRoles.MODERATOR
+
+
+class IsOwner(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.user.role == UserRoles.MEMBER:
+            return obj.owner == request.user
+        return False
+

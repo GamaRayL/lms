@@ -1,9 +1,7 @@
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, generics
-from rest_framework.filters import OrderingFilter
-from lms.serializers.payment import PaymentSerializer
-
 from lms.models import Payment
+from rest_framework import generics
+from django_filters.rest_framework import DjangoFilterBackend
+from lms.serializers.payment import PaymentSerializer
 
 
 class PaymentListAPIView(generics.ListAPIView):

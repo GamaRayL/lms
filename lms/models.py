@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 from constants import NULLABLE, PAYMENT_METHOD_CHOICES
@@ -8,6 +9,8 @@ class Course(models.Model):
     name = models.CharField(max_length=255, verbose_name='название')
     img_preview = models.ImageField(**NULLABLE, verbose_name='превью картинка')
     description = models.TextField(verbose_name='описание')
+    owner = models.ForeignKey('users.User', on_delete=models.CASCADE, **NULLABLE,
+                              verbose_name='владелец')
 
 
 class Lesson(models.Model):
@@ -15,7 +18,10 @@ class Lesson(models.Model):
     description = models.TextField(verbose_name='описание')
     img_preview = models.ImageField(**NULLABLE, verbose_name='превью картинка')
     video_url = models.CharField(max_length=255, verbose_name='ссылка на видео')
-    course = models.ForeignKey(Course, **NULLABLE, on_delete=models.CASCADE, verbose_name='курс', related_name='lessons')
+    course = models.ForeignKey(Course, **NULLABLE, on_delete=models.CASCADE, verbose_name='курс',
+                               related_name='lessons')
+    owner = models.ForeignKey('users.User', on_delete=models.CASCADE, **NULLABLE,
+                              verbose_name='владелец')
 
 
 class Payment(models.Model):
