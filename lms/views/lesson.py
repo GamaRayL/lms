@@ -28,7 +28,7 @@ class LessonRetrieveAPIView(generics.RetrieveAPIView):
     def get_object(self):
         lesson = super().get_object()
         if lesson.owner != self.request.user:
-            raise PermissionDenied("У вас нет разрешения на доступ к этому уроку.")
+            return Response({'error': 'У вас нет разрешения на доступ к этому уроку.'}, status=403)
         return lesson
 
 
@@ -38,7 +38,7 @@ class LessonCreateAPIView(generics.CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         if IsModerator().has_permission(request, self):
-            return Response({"error": "У вас нет разрешения на создание уроков."})
+            return Response({'error': 'У вас нет разрешения на создание уроков.'}, status=403)
         return super().create(request, *args, **kwargs)
 
 
@@ -50,7 +50,7 @@ class LessonUpdateAPIView(generics.UpdateAPIView):
     def get_object(self):
         lesson = super().get_object()
         if lesson.owner != self.request.user:
-            raise PermissionDenied("У вас нет разрешения на доступ к этому уроку.")
+            return Response({'error': 'У вас нет разрешения на обновление этого урока.'}, status=403)
         return lesson
 
 
@@ -60,5 +60,5 @@ class LessonDeleteAPIView(generics.DestroyAPIView):
 
     def delete(self, request, *args, **kwargs):
         if IsModerator().has_permission(request, self):
-            return Response({"error": "У вас нет разрешения на удаление уроков."})
+            return Response({'error': 'У вас нет разрешения на удаление уроков.'}, status=403)
         return super().delete(request, *args, **kwargs)
