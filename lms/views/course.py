@@ -1,24 +1,16 @@
-from django.core.exceptions import PermissionDenied
-from django.shortcuts import get_object_or_404
-from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-
 from lms.models import Course
+from rest_framework import viewsets
+from rest_framework.response import Response
 from lms.permissions import IsModerator, IsOwner
 from lms.serializers.course import CourseSerializer
+from django.core.exceptions import PermissionDenied
 
 
 class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
-    permission_classes = [IsAuthenticated, IsModerator | IsOwner]
+    permission_classes = [IsModerator | IsOwner]
 
-    # def get_object(self):
-    #     course = super().get_object()
-    #     if course.owner != self.request.user:
-    #         raise PermissionDenied({'detail': 'У вас нет разрешения на доступ к этому уроку.'})
-    #     return course
     def list(self, request, *args, **kwargs):
         if IsModerator().has_permission(self.request, self):
             queryset = Course.objects.all()
@@ -51,3 +43,5 @@ class CourseViewSet(viewsets.ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         if IsModerator().has_permission(request, self):
             return Response({'error': 'У вас нет разрешения на удаление уроков.'}, status=403)
+
+

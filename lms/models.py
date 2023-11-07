@@ -1,7 +1,6 @@
 from django.db import models
-
-from constants import NULLABLE, PAYMENT_METHOD_CHOICES
 from users.models import User
+from constants import NULLABLE, PAYMENT_METHOD_CHOICES
 
 
 class Course(models.Model):
@@ -32,3 +31,9 @@ class Payment(models.Model):
 
     def __str__(self):
         return f'Платеж #{self.pk} от {self.user} на сумму {self.payment_amount}'
+
+
+class Subscription(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='пользователь')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='курс')
+    is_active = models.BooleanField(default=True, verbose_name='подписка')

@@ -6,11 +6,13 @@ from lms.views.course import CourseViewSet
 from lms.views.payment import PaymentListAPIView
 from lms.views.lesson import LessonListAPIView, LessonCreateAPIView, LessonUpdateAPIView, \
     LessonDeleteAPIView, LessonRetrieveAPIView
+from lms.views.subscription import SubscriptionViewSet
 
 app_name = LmsConfig.name
 
 router = DefaultRouter()
-router.register(r'course', CourseViewSet, basename='course')
+router.register(r'courses', CourseViewSet, basename='courses')
+router.register(r'subscriptions', SubscriptionViewSet, basename='subscriptions')
 
 urlpatterns = [
     path('payment/', PaymentListAPIView.as_view(), name='payments'),

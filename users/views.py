@@ -1,11 +1,8 @@
-from rest_framework import generics
-
 from users.models import User
+from rest_framework import generics
 from users.serializers import UserSerializer
-
-from rest_framework_simplejwt.views import TokenObtainPairView
-
 from users.serializers import MyTokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 
 class MyTokenObtainPairView(TokenObtainPairView):
