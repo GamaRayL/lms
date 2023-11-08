@@ -7,6 +7,11 @@ class IsModerator(BasePermission):
         return request.user.role == UserRoles.MODERATOR
 
 
+class IsAdmin(BasePermission):
+    def has_permission(self, request, view):
+        return request.user.role == UserRoles.ADMIN
+
+
 class IsOwner(BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.user.role == UserRoles.MEMBER:

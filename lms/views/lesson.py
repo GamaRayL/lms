@@ -3,21 +3,23 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
 from lms.models import Lesson
-from lms.permissions import IsModerator, IsOwner
+from lms.paginations import LMSPagination
+from lms.permissions import IsModerator, IsOwner, IsAdmin
 from lms.serializers.lesson import LessonSerializer
 
 
 class LessonListAPIView(generics.ListAPIView):
     serializer_class = LessonSerializer
-    queryset = Lesson.objects.all()
-    permission_classes = [IsModerator | IsOwner]
+    permission_classes = [IsModerator | IsOwner | IsAdmin]
+    pagination_class = LMSPagination
 
     def get_queryset(self):
-        if IsModerator().has_permission(self.request, self):
-            return Lesson.objects.all()
+        if IsModerator().has_permission(self.request, self) or IsAdmin().has_permission(self.request, self):
+            queryset = Lesson.objects.all().order_by('id')
         else:
-            return Lesson.objects.filter(owner=self.request.user)
+            queryset = Lesson.objects.filter(owner=self.request.user).order_by('id')
 
+        return queryset.order_by('id')
 
 class LessonRetrieveAPIView(generics.RetrieveAPIView):
     serializer_class = LessonSerializer
@@ -33,12 +35,12 @@ class LessonRetrieveAPIView(generics.RetrieveAPIView):
 
 class LessonCreateAPIView(generics.CreateAPIView):
     serializer_class = LessonSerializer
-    permission_classes = [IsModerator]
+    permission_classes = [IsModerator | IsAdmin]
 
-    # def create(self, request, *args, **kwargs):
-    #     if IsModerator().has_permission(request, self):
-    #         return Response({'error': 'У вас нет разрешения на создание уроков.'}, status=403)
-    #     return super().create(request, *args, **kwargs)
+    def create(self, request, *args, **kwargs):
+        if IsModerator().has_permission(request, self):
+            return Response({'error': 'У вас нет разрешения на создание уроков.'}, status=403)
+        return super().create(request, *args, **kwargs)
 
 
 class LessonUpdateAPIView(generics.UpdateAPIView):

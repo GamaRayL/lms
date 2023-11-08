@@ -1,6 +1,8 @@
 from lms.models import Course
 from rest_framework import viewsets
 from rest_framework.response import Response
+
+from lms.paginations import LMSPagination
 from lms.permissions import IsModerator, IsOwner
 from lms.serializers.course import CourseSerializer
 from django.core.exceptions import PermissionDenied
@@ -10,15 +12,17 @@ class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
     permission_classes = [IsModerator | IsOwner]
+    pagination_class = LMSPagination
 
     def list(self, request, *args, **kwargs):
         if IsModerator().has_permission(self.request, self):
-            queryset = Course.objects.all()
+            queryset = Course.objects.all().order_by('id')
         else:
-            queryset = Course.objects.filter(owner=self.request.user)
+            queryset = Course.objects.filter(owner=self.request.user).order_by('id')
 
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+        pagination_queryset = self.paginate_queryset(queryset)
+        serializer = self.get_serializer(pagination_queryset, many=True)
+        return self.get_paginated_response(serializer.data)
 
     def retrieve(self, request, *args, **kwargs):
         obj = self.get_object()
