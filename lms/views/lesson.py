@@ -1,4 +1,5 @@
 from rest_framework import generics
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
@@ -20,6 +21,7 @@ class LessonListAPIView(generics.ListAPIView):
             queryset = Lesson.objects.filter(owner=self.request.user).order_by('id')
 
         return queryset.order_by('id')
+
 
 class LessonRetrieveAPIView(generics.RetrieveAPIView):
     serializer_class = LessonSerializer
@@ -46,13 +48,7 @@ class LessonCreateAPIView(generics.CreateAPIView):
 class LessonUpdateAPIView(generics.UpdateAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
-    permission_classes = [IsModerator | IsOwner]
-
-    def get_object(self):
-        lesson = super().get_object()
-        if lesson.owner != self.request.user:
-            return Response({'error': 'У вас нет разрешения на обновление этого урока.'}, status=403)
-        return lesson
+    permission_classes = [IsModerator | IsOwner | IsAdmin]
 
 
 class LessonDeleteAPIView(generics.DestroyAPIView):
