@@ -1,7 +1,5 @@
 from rest_framework import generics
-from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 
 from lms.models import Lesson
 from lms.paginations import LMSPagination
@@ -53,7 +51,7 @@ class LessonUpdateAPIView(generics.UpdateAPIView):
 
 class LessonDeleteAPIView(generics.DestroyAPIView):
     queryset = Lesson.objects.all()
-    permission_classes = [IsModerator]
+    permission_classes = [IsModerator | IsAdmin]
 
     def delete(self, request, *args, **kwargs):
         if IsModerator().has_permission(request, self):

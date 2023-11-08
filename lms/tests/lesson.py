@@ -1,16 +1,15 @@
 import json
 
 from rest_framework import status
-from rest_framework.test import APITestCase, APIClient
+from rest_framework.test import APITestCase
 
-from constants import EXPECTED_DATA, UPDATED_EXPECTED_DATA
+from constants import EXPECTED_DATA, UPDATED_EXPECTED_DATA, EXPECTED_CREATE_DATA
 from lms.models import Lesson
 from users.models import User
 
 
 class LessonTestCase(APITestCase):
     def setUp(self) -> None:
-        self.client = APIClient()
         self.user = User.objects.create(
             email='admin@test.com',
             role='admin',
@@ -21,6 +20,7 @@ class LessonTestCase(APITestCase):
         self.user.set_password('admin')
         self.user.save()
         self.client.force_authenticate(user=self.user)
+
         self.lesson = Lesson.objects.create(
             name="New lesson",
             description="New lesson description",
@@ -37,7 +37,7 @@ class LessonTestCase(APITestCase):
 
         response = self.client.post('/lessons/create/', data=data)
 
-        self.assertEqual(response.json(), EXPECTED_DATA)
+        self.assertEqual(response.json(), EXPECTED_CREATE_DATA)
 
         self.assertTrue(Lesson.objects.all().exists())
 
@@ -72,7 +72,8 @@ class LessonTestCase(APITestCase):
             "video_url": "https://youtube.com/watch?v=nLRL_NcnK-5"
         }
 
-        response = self.client.patch(f'/lessons/update/{self.lesson.id}/', data=json.dumps(data), content_type='application/json')
+        response = self.client.patch(f'/lessons/update/{self.lesson.id}/',
+                                     data=json.dumps(data), content_type='application/json')
 
         self.assertEqual(
             response.status_code,
@@ -84,24 +85,12 @@ class LessonTestCase(APITestCase):
             UPDATED_EXPECTED_DATA
         )
 
-    def test_update_lesson(self):
-        """ Тестирование обновления урока """
+    def test_delete_lesson(self):
+        """ Тестирование удаления урока """
 
-        data = {
-            "name": "Updated lesson",
-            "description": "Updated lesson description",
-            "video_url": "https://youtube.com/watch?v=nLRL_NcnK-5"
-        }
-
-        response = self.client.patch(f'/lessons/update/{self.lesson.id}/', data=json.dumps(data),
-                                     content_type='application/json')
+        response = self.client.delete(f'/lessons/delete/{self.lesson.id}/')
 
         self.assertEqual(
             response.status_code,
-            status.HTTP_200_OK
-        )
-
-        self.assertEqual(
-            response.json(),
-            UPDATED_EXPECTED_DATA
+            status.HTTP_204_NO_CONTENT
         )

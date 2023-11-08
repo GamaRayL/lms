@@ -8,8 +8,18 @@ PAYMENT_METHOD_CHOICES = [
         (TRANSFER, 'Перевод на счет'),
     ]
 
-EXPECTED_DATA = {
+EXPECTED_CREATE_DATA = {
             "id": 2,
+            "name": "New lesson",
+            "description": "New lesson description",
+            "img_preview": None,
+            "video_url": "https://www.youtube.com/watch?v=nLRL_NcnK-4",
+            "course": None,
+            "owner": None
+        }
+
+EXPECTED_DATA = {
+            "id": 1,
             "name": "New lesson",
             "description": "New lesson description",
             "img_preview": None,
