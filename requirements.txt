@@ -3,6 +3,7 @@ djangorestframework
 django-filter
 djangorestframework-simplejwt
 psycopg2-binary
+django-environ
+coverage
 ipython
 pillow
-django-environ
