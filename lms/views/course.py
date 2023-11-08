@@ -3,7 +3,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 
 from lms.paginations import LMSPagination
-from lms.permissions import IsModerator, IsOwner
+from lms.permissions import IsModerator, IsOwner, IsAdmin
 from lms.serializers.course import CourseSerializer
 from django.core.exceptions import PermissionDenied
 
@@ -11,7 +11,7 @@ from django.core.exceptions import PermissionDenied
 class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
-    permission_classes = [IsModerator | IsOwner]
+    permission_classes = [IsModerator | IsOwner | IsAdmin]
     pagination_class = LMSPagination
 
     def list(self, request, *args, **kwargs):
@@ -43,6 +43,7 @@ class CourseViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         if IsModerator().has_permission(request, self):
             return Response({'error': 'У вас нет разрешения на создание уроков.'}, status=403)
+        return super().create(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
         if IsModerator().has_permission(request, self):
