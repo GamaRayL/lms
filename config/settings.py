@@ -108,6 +108,8 @@ DATABASES = {
         'NAME': env("DB_NAME"),
         'USER': env('DB_USER'),
         'PASSWORD': env('DB_PASSWORD'),
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 
@@ -151,4 +153,3 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
-
