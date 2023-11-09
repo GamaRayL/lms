@@ -1,3 +1,5 @@
+from rest_framework.permissions import IsAuthenticated
+
 from lms.models import Course
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -11,7 +13,7 @@ from django.core.exceptions import PermissionDenied
 class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
-    permission_classes = [IsModerator | IsOwner | IsAdmin]
+    permission_classes = [IsAuthenticated, IsModerator | IsOwner | IsAdmin]
     pagination_class = LMSPagination
 
     def list(self, request, *args, **kwargs):
