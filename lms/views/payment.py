@@ -14,3 +14,7 @@ class PaymentListAPIView(generics.ListAPIView):
     def get_queryset(self):
         queryset = Payment.objects.all()
         return queryset
+
+
+class PaymentCreateAPIView(generics.CreateAPIView):
+    serializer_class = PaymentSerializer
