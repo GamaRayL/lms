@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 
 from lms.apps import LmsConfig
 from lms.views.course import CourseViewSet
-from lms.views.payment import PaymentListAPIView, PaymentCreateAPIView
+from lms.views.payment import PaymentListAPIView, PaymentCreateAPIView, PaymentRetrieveAPIView
 from lms.views.lesson import LessonListAPIView, LessonCreateAPIView, LessonUpdateAPIView, \
     LessonDeleteAPIView, LessonRetrieveAPIView
 from lms.views.subscription import SubscriptionViewSet
@@ -25,4 +25,5 @@ urlpatterns = [
     # payments
     path('payments/', PaymentListAPIView.as_view(), name='payments'),
     path('payments/create', PaymentCreateAPIView.as_view(), name='payment_create'),
+    path('payments/<int:pk>/', PaymentRetrieveAPIView.as_view(), name='payment')
               ] + router.urls

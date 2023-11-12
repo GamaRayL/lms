@@ -25,10 +25,12 @@ class Lesson(models.Model):
 class Payment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='пользователь')
     payment_date = models.DateField(auto_now_add=True, verbose_name='дата оплаты')
-    paid_for_course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='оплаченный курс')
-    paid_for_lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name='оплаченный урок')
+    paid_for_course = models.ForeignKey(Course, on_delete=models.CASCADE, **NULLABLE, verbose_name='оплата за курс')
+    paid_for_lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, **NULLABLE, verbose_name='оплата за урок')
     payment_amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='сумма оплаты')
     payment_method = models.CharField(max_length=15, choices=PAYMENT_METHOD_CHOICES, verbose_name='способ оплаты')
+
+    payment_id = models.CharField(max_length=150, blank=True, null=True, verbose_name='ID оплаты Stripe')
 
     def __str__(self):
         return f'Платеж #{self.pk} от {self.user} на сумму {self.payment_amount}'
