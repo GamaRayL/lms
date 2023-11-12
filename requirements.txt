@@ -3,6 +3,7 @@ djangorestframework
 django-filter
 djangorestframework-simplejwt
 psycopg2-binary
+drf-yasg
 django-environ
 coverage
 ipython
