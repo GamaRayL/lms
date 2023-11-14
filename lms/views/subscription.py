@@ -11,6 +11,11 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
     serializer_class = SubscriptionSerializer
     permission_classes = [AllowAny]
 
+    # def create(self, request, *args, **kwargs):
+    #     serializer = self.get_serializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     return Response(serializer.data)
+
     def destroy(self, request, *args, **kwargs):
         obj = self.get_object()
 

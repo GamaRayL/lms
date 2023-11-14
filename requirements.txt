@@ -3,6 +3,9 @@ djangorestframework
 django-filter
 djangorestframework-simplejwt
 psycopg2-binary
+celery
+redis
+django-celery-beat
 requests
 stripe
 drf-yasg
@@ -10,3 +13,4 @@ django-environ
 coverage
 ipython
 pillow
+
