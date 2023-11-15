@@ -161,7 +161,7 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 
 CELERY_BEAT_SCHEDULE = {
     'task-name': {
-        'task': 'lms.tasks.my_task',
+        'task': 'lms.tasks.notification_task',
         'schedule': timedelta(minutes=10),
     },
 }

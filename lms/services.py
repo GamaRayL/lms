@@ -30,6 +30,6 @@ def subscriber_notice(course_id):
             message=f'Название: {subscription.course.name}\n'
                     f'Описание: {subscription.course.description}',
             from_email=EMAIL_HOST_USER,
-            recipient_list=['gamaizingg@gmail.com'],
+            recipient_list=[subscription.user.email],
             fail_silently=False,
         )
