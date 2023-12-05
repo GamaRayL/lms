@@ -7,11 +7,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         try:
-            email = input('Почта: ')
-            password = input('Пароль: ')
             user = User.objects.create_user(
-                email=email,
-                password=password,
+                email='test@test.com',
+                password='test',
                 role=UserRoles.MEMBER
             )
 
