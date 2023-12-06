@@ -23,6 +23,8 @@ services:
       - '5433:5432'
     env_file:
       - .env
+    volumes:
+      - pg_data:/var/lib/postgres/data/pg_data
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U postgres']
       interval: 5s
@@ -55,3 +57,5 @@ networks:
   mynetwork:
     driver: bridge
 
+volumes:
+  pg_data:
