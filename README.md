@@ -8,5 +8,6 @@
 ## Docker Compose
 Файл `docker-compose.yaml` определяет сервисы и их конфигурации. Он включает сервисы для Django-приложения, базы данных PostgreSQL, Redis, Celery worker и Celery beat.
 
-## Создание пользовател
-В терминале ввести `docker exec -it 'имя_контейнера_приложения'` и дальше `python3 manage.py createuser`
+## Тестирование
+* **_Миграции_**: `docker exec -it 'имя_контейнера_приложения' bash` и дальше `python3 manage.py migrate`
+* **_Создание пользователя_**:`docker exec -it 'имя_контейнера_приложения' bash` и дальше `python3 manage.py createuser`
